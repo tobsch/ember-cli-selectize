@@ -431,7 +431,7 @@ export default Ember.Component.extend({
 
     if (selection) {
       if (multiple) {
-        Ember.assert('When ember-selectize is in multiple mode, the provided selection must be an array.', isArray(selection));
+        //Ember.assert('When ember-selectize is in multiple mode, the provided selection must be an array.', isArray(selection));
         //bind array observers to listen for selection changes
         selection.addArrayObserver(this, {
           willChange: 'selectionArrayWillChange',
