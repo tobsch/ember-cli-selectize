@@ -45,7 +45,7 @@ export default Ember.Component.extend({
       return selection.toArray();
     }
     return selection;
-  }.property('selection')
+  }.property('selection'),
   
   value: computedPolyfill('selection', {
     get() {
