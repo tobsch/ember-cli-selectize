@@ -38,6 +38,15 @@ export default Ember.Component.extend({
   optionGroupPath: 'content.group',
 
   selection: null,
+  
+  selectionArray: function(){
+    var selection = this.get('selection');
+    if (selection && typeof selection == 'object' && typeof selection.toArray == 'function') {
+      return selection.toArray();
+    }
+    return selection;
+  }.property('selection')
+  
   value: computedPolyfill('selection', {
     get() {
       var valuePath = this.get('_valuePath');
@@ -318,7 +327,7 @@ export default Ember.Component.extend({
   */
   _onItemAdd(value) {
     var content = this.get('content');
-    var selection = this.get('selection');
+    var selection = this.get('selectionArray');
     var multiple = this.get('multiple');
     if (content) {
       var obj = content.find(function(item) {
@@ -345,7 +354,7 @@ export default Ember.Component.extend({
     if (this._removing) { return; }
 
     var content = this.get('content');
-    var selection = this.get('selection');
+    var selection = this.get('selectionArray');
     var multiple = this.get('multiple');
     if (content) {
       var obj = content.find(function(item) {
@@ -419,7 +428,7 @@ export default Ember.Component.extend({
   */
   _selectionDidChange: Ember.observer('selection', function() {
 
-    var selection = this.get('selection');
+    var selection = this.get('selectionArray');
     if (this._oldSelection !== selection) {
       this._selectionWillChange(this._oldSelection);
       this._oldSelection = selection;
@@ -431,7 +440,7 @@ export default Ember.Component.extend({
 
     if (selection) {
       if (multiple) {
-        //Ember.assert('When ember-selectize is in multiple mode, the provided selection must be an array.', isArray(selection));
+        Ember.assert('When ember-selectize is in multiple mode, the provided selection must be an array.', isArray(selection));
         //bind array observers to listen for selection changes
         selection.addArrayObserver(this, {
           willChange: 'selectionArrayWillChange',
